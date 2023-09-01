@@ -1,0 +1,17 @@
+{
+  "name": "sensors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run-dht-sensor": "node dht.js",
+    "run-solar-radiation-sensor": "node solar_radiation.js",
+    "run-wind-speed-sensor": "node wind_speed.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "mqtt": "^5.0.4"
+  }
+}
