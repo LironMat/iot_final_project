@@ -22,7 +22,7 @@ client.on('connect', () => {
     const nowHour = set(new Date(), { milliseconds: 0, seconds: 0, minutes: 0 });
     const hourlyData = weatherDict[nowHour.getTime()];
     const currentData = {
-      solarRadiation: noiseData(hourlyData.solarRadiation),
+      solarRadiation: Math.max(0, noiseData(hourlyData.solarRadiation)),
     };
 
     console.log(currentData);

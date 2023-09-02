@@ -3,6 +3,14 @@
   "tasks": [
     {
       "type": "npm",
+      "script": "run-data-manager",
+      "path": "data_manager",
+      "problemMatcher": [],
+      "label": "npm: run-data-manager - data_manager",
+      "detail": "node data_manager.js"
+    },
+    {
+      "type": "npm",
       "script": "run-dht-sensor",
       "path": "sensors",
       "problemMatcher": [],
