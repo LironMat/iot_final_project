@@ -16,6 +16,8 @@ function noiseData(data) {
 }
 
 client.on('connect', () => {
+  console.log('client connected');
+
   setInterval(async () => {
     const nowHour = set(new Date(), { milliseconds: 0, seconds: 0, minutes: 0 });
     const hourlyData = weatherDict[nowHour.getTime()];
