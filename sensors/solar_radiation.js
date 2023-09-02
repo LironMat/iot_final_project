@@ -7,7 +7,7 @@ const client = mqtt.connect(brokerUrl);
 const fs = require('fs');
 const { set } = require('date-fns');
 
-const weatherDict = JSON.parse(fs.readFileSync(`${__dirname}/../weatherData.json`, { encoding: 'utf-8' }));
+const weatherDict = JSON.parse(fs.readFileSync(`${__dirname}/../fake_data/weatherData.json`, { encoding: 'utf-8' }));
 
 function noiseData(data) {
   const res = data + Math.random() - 0.5;

@@ -27,7 +27,8 @@
     },
     {
       "label": "run all sensors",
-      "dependsOn": ["npm: run-dht-sensor - sensors", "npm: run-solar-radiation-sensor - sensors", "npm: run-wind-speed-sensor - sensors"]
+      "dependsOn": ["npm: run-dht-sensor - sensors", "npm: run-solar-radiation-sensor - sensors", "npm: run-wind-speed-sensor - sensors"],
+      "problemMatcher": []
     }
   ]
 }
