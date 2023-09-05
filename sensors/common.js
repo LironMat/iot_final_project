@@ -5,6 +5,8 @@ const fs = require('fs');
 const brokerUrl = 'mqtt://localhost:1883';
 const updateRateMs = 10 * 1000;
 const parentTopic = 'lm/iot/plant';
+
+/** @type {Object.<number,{temperature:number,humidity:number,windSpeed:number,solarRadiation:number}>} */
 const weatherDict = JSON.parse(fs.readFileSync(`${__dirname}/../fake_data/weatherData.json`, { encoding: 'utf-8' }));
 
 function noiseData(data) {

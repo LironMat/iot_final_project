@@ -1,9 +1,8 @@
-const mongoUrl = 'mongodb://root:example@localhost:27017/iot?authSource=admin';
-
 const { dht, solarRadiation, windSpeed } = require('./models');
 const mongoose = require('mongoose');
 const mqtt = require('mqtt');
 const { brokerUrl, parentTopic } = require('../sensors/common');
+const { mongoUrl } = require('./db_commons');
 
 mongoose.connect(mongoUrl).then(() => console.log('db connected!'));
 
