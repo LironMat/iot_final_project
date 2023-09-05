@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">{{title}}</mat-toolbar>
+<div class="messages-container">
+    <mat-card *ngFor="let messageRecord of messageRecords" [@slideInOut]>
+        <mat-card-header>
+            <mat-card-title>{{messageRecord.topic}}</mat-card-title>
+            <mat-card-subtitle>{{messageRecord.time| date: 'yyyy-MM-dd HH:mm:ss'}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>{{messageRecord.content}}</mat-card-content>
+    </mat-card>
+</div>

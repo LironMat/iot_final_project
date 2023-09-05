@@ -1,21 +1,14 @@
-const brokerUrl = 'mqtt://broker.hivemq.com';
-const updateRateMs = 5 * 1000;
-const topic = 'lm/iot/plant/solar_radiation';
+const { set } = require('date-fns');
+const { parentTopic, updateRateMs, brokerUrl, weatherDict, noiseData, delay } = require('./common');
 
 const mqtt = require('mqtt');
 const client = mqtt.connect(brokerUrl);
-const fs = require('fs');
-const { set } = require('date-fns');
 
-const weatherDict = JSON.parse(fs.readFileSync(`${__dirname}/../fake_data/weatherData.json`, { encoding: 'utf-8' }));
+const topic = `${parentTopic}/solar_radiation`;
 
-function noiseData(data) {
-  const res = data + Math.random() - 0.5;
+client.on('connect', async () => {
+  await delay(Math.random() * 5000);
 
-  return Math.floor(res * 100) / 100;
-}
-
-client.on('connect', () => {
   console.log('client connected');
 
   setInterval(async () => {
