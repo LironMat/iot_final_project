@@ -35,3 +35,33 @@ mqttClient.on('message', async (topic, message) => {
       console.warn('unknown topic');
   }
 });
+
+const express = require('express');
+const { subDays } = require('date-fns');
+const app = express();
+const port = 3000;
+
+app.get('/sensor_data/:sensor/:days', async (req, res) => {
+  let model = null;
+  switch (req.params.sensor) {
+    case 'dht':
+      model = dht;
+      break;
+    case 'wind_speed':
+      model = windSpeed;
+      break;
+    case 'solar_radiation':
+      model = solarRadiation;
+      break;
+    default:
+      return res.sendStatus(400);
+  }
+
+  const results = await model.find({ time: { $gt: subDays(new Date(), parseInt(req.params.days)) } }, { __v: 0, _id: 0 }).lean();
+
+  return res.send(results);
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
