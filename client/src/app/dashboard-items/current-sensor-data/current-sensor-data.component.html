@@ -1,0 +1,12 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{title}}</mat-card-title>
+            <mat-card-subtitle>{{lastMessageRecord?.time | date:'medium'}}</mat-card-subtitle>
+            <mat-icon *ngFor="let icon of icons">{{icon}}</mat-icon>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <p>{{lastMessageRecord?.content | messageContent: messageType}}</p>
+    </mat-card-content>
+</mat-card>

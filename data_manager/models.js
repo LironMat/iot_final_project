@@ -25,4 +25,12 @@ const windSpeed = mongoose.model(
   })
 );
 
-module.exports = { dht, solarRadiation, windSpeed };
+const et0 = mongoose.model(
+  'ET0',
+  new mongoose.Schema({
+    time: { type: Date, default: Date.now },
+    et0: { type: Number },
+  })
+);
+
+module.exports = { dht, solarRadiation, windSpeed, et0 };

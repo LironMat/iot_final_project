@@ -21,6 +21,6 @@ client.on('connect', async () => {
 
     console.log(currentData);
 
-    client.publish(topic, JSON.stringify(currentData));
+    client.publish(topic, JSON.stringify(currentData), { retain: true });
   }, updateRateMs);
 });

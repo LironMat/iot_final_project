@@ -1,7 +1,7 @@
 const { dht, solarRadiation, windSpeed } = require('./models');
 const mongoose = require('mongoose');
 const mqtt = require('mqtt');
-const { brokerUrl, parentTopic } = require('../sensors/common');
+const { brokerUrl, parentTopic, calculateET0 } = require('../sensors/common');
 const { mongoUrl } = require('./db_commons');
 
 mongoose.connect(mongoUrl).then(() => console.log('db connected!'));
@@ -12,6 +12,18 @@ mqttClient.on('connect', () => {
   console.log('client connected');
 
   mqttClient.subscribe(`${parentTopic}/+`, (err) => {});
+
+  setInterval(async () => {
+    const latestDht = await dht.findOne().sort({ $natural: -1 });
+    const latestWindSpeed = await windSpeed.findOne().sort({ $natural: -1 });
+    const latestSolarRadiation = await solarRadiation.findOne().sort({ $natural: -1 });
+
+    const et0 = calculateET0(latestDht.temperature, latestDht.humidity, latestWindSpeed.windSpeed, latestSolarRadiation.solarRadiation);
+
+    console.log(`et0: ${et0}`);
+
+    mqttClient.publish('lm/iot/data/et0', JSON.stringify({ et0 }), { retain: true });
+  }, 10 * 1000);
 });
 
 mqttClient.on('message', async (topic, message) => {

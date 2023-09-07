@@ -1,0 +1,9 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="4" rowHeight="2:1">
+    <mat-grid-tile *ngFor="let currentSensorData of currentSensorDatas" [colspan]="1" [rowspan]="1">
+      <app-current-sensor-data [title]="currentSensorData.title" [topic]="currentSensorData.topic"
+        [messageType]="currentSensorData.messageType" [icons]="currentSensorData.icons"></app-current-sensor-data>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

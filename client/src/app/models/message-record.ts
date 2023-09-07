@@ -10,7 +10,7 @@ export class MessageRecord {
   }
 
   get content() {
-    return this.message.payload.toString();
+    return JSON.parse(this.message.payload.toString());
   }
 
   get topic() {
