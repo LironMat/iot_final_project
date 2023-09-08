@@ -5,5 +5,8 @@
       <app-current-sensor-data [title]="currentSensorData.title" [topic]="currentSensorData.topic"
         [messageType]="currentSensorData.messageType" [icons]="currentSensorData.icons"></app-current-sensor-data>
     </mat-grid-tile>
+    <mat-grid-tile *ngFor="let dataGraph of dataGraphs" [colspan]="1" [rowspan]="2">
+      <app-data-graph [title]="dataGraph.title" [dataName]="dataGraph.dataName"></app-data-graph>
+    </mat-grid-tile>
   </mat-grid-list>
 </div>

@@ -58,8 +58,6 @@ export class CurrentSensorDataComponent {
       .observe(this._topic)
       .subscribe((message) => {
         this.lastMessageRecord = new MessageRecord(message);
-
-        console.log(this.lastMessageRecord);
       });
   }
 

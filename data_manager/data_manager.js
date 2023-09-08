@@ -1,8 +1,8 @@
-const { dht, solarRadiation, windSpeed } = require('./models');
+const { dht, solarRadiation, windSpeed, et0 } = require('./models');
 const mongoose = require('mongoose');
 const mqtt = require('mqtt');
 const { brokerUrl, parentTopic, calculateET0 } = require('../sensors/common');
-const { mongoUrl } = require('./db_commons');
+const { mongoUrl, saveDB } = require('./db_commons');
 
 mongoose.connect(mongoUrl).then(() => console.log('db connected!'));
 
@@ -33,6 +33,10 @@ mqttClient.on('message', async (topic, message) => {
   const data = JSON.parse(msg);
   const tpc = topic.split('/').reverse()[0];
 
+  if (!saveDB) {
+    return;
+  }
+
   switch (tpc) {
     case 'dht':
       await new dht(data).save();
@@ -50,7 +54,11 @@ mqttClient.on('message', async (topic, message) => {
 
 const express = require('express');
 const { subDays } = require('date-fns');
+var cors = require('cors');
 const app = express();
+
+app.use(cors());
+
 const port = 3000;
 
 app.get('/sensor_data/:sensor/:days', async (req, res) => {
@@ -64,6 +72,9 @@ app.get('/sensor_data/:sensor/:days', async (req, res) => {
       break;
     case 'solar_radiation':
       model = solarRadiation;
+      break;
+    case 'et0':
+      model = et0;
       break;
     default:
       return res.sendStatus(400);

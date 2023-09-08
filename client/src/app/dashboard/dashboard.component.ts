@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CurrentSensorData } from '../models/current-sensor-data';
+import { CurrentSensorData, DataGraph } from '../models/current-sensor-data';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +34,25 @@ export class DashboardComponent {
       title: 'ET0 (water evapotranspiration)',
       messageType: 'et0',
       icons: ['water'],
+    },
+  ];
+
+  readonly dataGraphs: DataGraph[] = [
+    {
+      title: 'DHT Graph',
+      dataName: 'dht',
+    },
+    {
+      title: 'Wind Speed Graph',
+      dataName: 'wind_speed',
+    },
+    {
+      title: 'Solar Radiation Graph',
+      dataName: 'solar_radiation',
+    },
+    {
+      title: 'ET0 Graph',
+      dataName: 'et0',
     },
   ];
 

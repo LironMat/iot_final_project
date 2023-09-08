@@ -14,7 +14,7 @@ function noiseData(data) {
     return 0;
   }
 
-  const res = data + Math.random() - 0.5;
+  const res = data * (0.98 + 0.04 * Math.random());
 
   return Math.floor(res * 100) / 100;
 }

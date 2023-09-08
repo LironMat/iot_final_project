@@ -11,6 +11,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CurrentSensorDataComponent } from './dashboard-items/current-sensor-data/current-sensor-data.component';
 import { MessageContentPipe } from './pipes/message-content.pipe';
 import { MatIconRegistry } from '@angular/material/icon';
+import { DataGraphComponent } from './dashboard-items/data-graph/data-graph.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,7 @@ import { MatIconRegistry } from '@angular/material/icon';
     DashboardComponent,
     CurrentSensorDataComponent,
     MessageContentPipe,
+    DataGraphComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +34,8 @@ import { MatIconRegistry } from '@angular/material/icon';
       port: 9001, //8884,
       protocol: 'ws',
     }),
+    HttpClientModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

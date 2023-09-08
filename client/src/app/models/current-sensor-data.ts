@@ -4,3 +4,13 @@ export interface CurrentSensorData {
   messageType: string;
   icons: string[];
 }
+
+export interface DataGraph {
+  title: string;
+  dataName: string;
+}
+
+export interface DataPoint {
+  [x: string]: any;
+  time: Date;
+}

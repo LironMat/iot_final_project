@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{title}}</mat-card-title>
+            <button mat-icon-button (click)="toggleFullscreen()">
+                <mat-icon>{{fullscreen?'close_fullscreen':'open_in_full'}}</mat-icon>
+            </button>
+        </mat-card-title-group>
+    </mat-card-header>
+
+    <mat-card-content>
+        <canvas baseChart [datasets]="datasets" [options]="lineChartOptions" [type]="'line'">
+        </canvas>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <mat-radio-group [value]="1" (change)="changeDays($event.value)">
+            <mat-radio-button [value]="1">1 Day</mat-radio-button>
+            <mat-radio-button [value]="7">7 Days</mat-radio-button>
+            <mat-radio-button [value]="30">30 Days</mat-radio-button>
+        </mat-radio-group>
+    </mat-card-actions>
+</mat-card>

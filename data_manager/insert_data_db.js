@@ -5,13 +5,15 @@ const { noiseData, weatherDict } = require('../sensors/common');
 const { dht, windSpeed, solarRadiation, et0 } = require('./models');
 
 mongoose.connect(mongoUrl).then(async (db) => {
-  await dht.collection.drop();
-  await windSpeed.collection.drop();
-  await solarRadiation.collection.drop();
-  await et0.collection.drop();
+  // await dht.collection.drop();
+  // await windSpeed.collection.drop();
+  // await solarRadiation.collection.drop();
+  // await et0.collection.drop();
 
   const now = new Date();
-  let start = parse('2023-08-01_00:00', 'yyyy-MM-dd_HH:mm', new Date());
+
+  // let start = parse('2023-08-01_00:00', 'yyyy-MM-dd_HH:mm', new Date());
+  let start = (await dht.findOne().sort({ $natural: -1 })).time;
 
   while (isBefore(start, now)) {
     const startHour = set(start, { milliseconds: 0, seconds: 0, minutes: 0 });
