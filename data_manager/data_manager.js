@@ -1,4 +1,4 @@
-const { dht, solarRadiation, windSpeed, et0 } = require('./models');
+const { dht, solarRadiation, windSpeed, et0, faucetToggle } = require('./models');
 const mongoose = require('mongoose');
 const mqtt = require('mqtt');
 const { brokerUrl, parentTopic, calculateET0 } = require('../sensors/common');
@@ -8,21 +8,39 @@ mongoose.connect(mongoUrl).then(() => console.log('db connected!'));
 
 const mqttClient = mqtt.connect(brokerUrl);
 
-mqttClient.on('connect', () => {
-  console.log('client connected');
+async function calculateET0FromLatestData(latestDht, latestWindSpeed, latestSolarRadiation) {
+  const et0 = calculateET0(latestDht.temperature, latestDht.humidity, latestWindSpeed.windSpeed, latestSolarRadiation.solarRadiation);
 
-  mqttClient.subscribe(`${parentTopic}/+`, (err) => {});
+  console.log(`et0: ${et0}`);
+
+  mqttClient.publish(`${parentTopic}/data/et0`, JSON.stringify({ et0 }), { retain: true });
+}
+
+mqttClient.on('connect', () => {
+  mqttClient.subscribe(`${parentTopic}/sensors/+`, (err) => {});
+  mqttClient.subscribe(`${parentTopic}/faucet`, (err) => {});
 
   setInterval(async () => {
-    const latestDht = await dht.findOne().sort({ $natural: -1 });
-    const latestWindSpeed = await windSpeed.findOne().sort({ $natural: -1 });
-    const latestSolarRadiation = await solarRadiation.findOne().sort({ $natural: -1 });
+    const [latestDht, latestWindSpeed, latestSolarRadiation, latestFaucetStatus] = await Promise.all([
+      dht.findOne().sort({ $natural: -1 }),
+      windSpeed.findOne().sort({ $natural: -1 }),
+      solarRadiation.findOne().sort({ $natural: -1 }),
+      faucetToggle.findOne().sort({ $natural: -1 }),
+    ]);
 
-    const et0 = calculateET0(latestDht.temperature, latestDht.humidity, latestWindSpeed.windSpeed, latestSolarRadiation.solarRadiation);
+    await calculateET0FromLatestData(latestDht, latestWindSpeed, latestSolarRadiation);
 
-    console.log(`et0: ${et0}`);
+    const warnings = [];
 
-    mqttClient.publish('lm/iot/data/et0', JSON.stringify({ et0 }), { retain: true });
+    if (latestFaucetStatus.status && latestSolarRadiation.solarRadiation > 0) {
+      warnings.push('ברז ההשקייה פתוח כשבחוץ חם מדי, יש לסגור ולפתוח רק בשעות לילה');
+    }
+
+    if (latestFaucetStatus.status && isBefore(latestFaucetStatus.time, subMinutes(new Date(), 30))) {
+      warnings.push('ברז ההשקייה פתוח יותר מ30 דקות, יש לסגור אותו על מנת לחסוך במים');
+    }
+
+    mqttClient.publish(`${parentTopic}/warn`, JSON.stringify(warnings));
   }, 10 * 1000);
 });
 
@@ -32,6 +50,12 @@ mqttClient.on('message', async (topic, message) => {
   const msg = message.toString();
   const data = JSON.parse(msg);
   const tpc = topic.split('/').reverse()[0];
+
+  if (tpc === 'faucet') {
+    await new faucetToggle({ status: data === 'on' }).save();
+
+    return;
+  }
 
   if (!saveDB) {
     return;
@@ -53,7 +77,7 @@ mqttClient.on('message', async (topic, message) => {
 });
 
 const express = require('express');
-const { subDays } = require('date-fns');
+const { subDays, isBefore, subMinutes } = require('date-fns');
 var cors = require('cors');
 const app = express();
 

@@ -14,6 +14,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DataGraphComponent } from './dashboard-items/data-graph/data-graph.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgChartsModule } from 'ng2-charts';
+import { WarningsComponent } from './dashboard-items/warnings/warnings.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NgChartsModule } from 'ng2-charts';
     CurrentSensorDataComponent,
     MessageContentPipe,
     DataGraphComponent,
+    WarningsComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,7 @@ const { parentTopic, updateRateMs, brokerUrl, weatherDict, noiseData, delay } = 
 const mqtt = require('mqtt');
 const client = mqtt.connect(brokerUrl);
 
-const topic = `${parentTopic}/wind_speed`;
+const topic = `${parentTopic}/sensors/wind_speed`;
 
 client.on('connect', async () => {
   await delay(Math.random() * 5000);

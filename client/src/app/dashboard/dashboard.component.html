@@ -1,12 +1,15 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="4" rowHeight="2:1">
+  <h1>Watering Dashboard</h1>
+  <mat-grid-list cols="5" rowHeight="2:1">
     <mat-grid-tile *ngFor="let currentSensorData of currentSensorDatas" [colspan]="1" [rowspan]="1">
       <app-current-sensor-data [title]="currentSensorData.title" [topic]="currentSensorData.topic"
         [messageType]="currentSensorData.messageType" [icons]="currentSensorData.icons"></app-current-sensor-data>
     </mat-grid-tile>
     <mat-grid-tile *ngFor="let dataGraph of dataGraphs" [colspan]="1" [rowspan]="2">
       <app-data-graph [title]="dataGraph.title" [dataName]="dataGraph.dataName"></app-data-graph>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="2">
+      <app-warnings></app-warnings>
     </mat-grid-tile>
   </mat-grid-list>
 </div>

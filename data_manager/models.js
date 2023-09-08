@@ -33,4 +33,12 @@ const et0 = mongoose.model(
   })
 );
 
-module.exports = { dht, solarRadiation, windSpeed, et0 };
+const faucetToggle = mongoose.model(
+  'FaucetToggle',
+  new mongoose.Schema({
+    time: { type: Date, default: Date.now },
+    status: { type: Boolean },
+  })
+);
+
+module.exports = { dht, solarRadiation, windSpeed, et0, faucetToggle };

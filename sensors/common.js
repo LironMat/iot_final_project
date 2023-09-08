@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const brokerUrl = 'mqtt://localhost:1883';
 const updateRateMs = 10 * 1000;
-const parentTopic = 'lm/iot/sensors';
+const parentTopic = 'lm/iot';
 
 /** @type {Object.<number,{temperature:number,humidity:number,windSpeed:number,solarRadiation:number,et0:number}>} */
 const weatherDict = JSON.parse(fs.readFileSync(`${__dirname}/../fake_data/weatherData.json`, { encoding: 'utf-8' }));

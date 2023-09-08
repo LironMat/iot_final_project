@@ -35,6 +35,12 @@ export class DashboardComponent {
       messageType: 'et0',
       icons: ['water'],
     },
+    {
+      topic: `${this.projectParentTopic}/faucet`,
+      title: 'Watering Faucet Status',
+      messageType: 'faucet',
+      icons: ['valve'],
+    },
   ];
 
   readonly dataGraphs: DataGraph[] = [

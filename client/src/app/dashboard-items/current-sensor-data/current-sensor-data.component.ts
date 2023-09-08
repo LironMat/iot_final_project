@@ -57,6 +57,7 @@ export class CurrentSensorDataComponent {
     this.subscription = this._mqttService
       .observe(this._topic)
       .subscribe((message) => {
+        console.log(message);
         this.lastMessageRecord = new MessageRecord(message);
       });
   }

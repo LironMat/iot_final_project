@@ -1,0 +1,17 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title color="accent">Warnings</mat-card-title>
+            <mat-card-subtitle>{{time | date: 'medium'}}</mat-card-subtitle>
+            <mat-icon color="accent">warning</mat-icon>
+        </mat-card-title-group>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-card *ngFor="let warning of warnings">
+            <mat-card-header>
+                <mat-card-title>{{warning}}</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+    </mat-card-content>
+</mat-card>

@@ -19,7 +19,7 @@ export class MessageContentPipe implements PipeTransform {
       case 'et0':
         return `ET0: ${value.et0} mm`;
       default:
-        return '';
+        return value;
     }
   }
 }
